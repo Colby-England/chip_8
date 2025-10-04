@@ -50,3 +50,16 @@ void print_ram(uint8_t const *const ram, size_t size) {
     printf("\n");
   }
 }
+
+void draw_display(uint8_t const *const display, size_t width, size_t height) {
+  for (size_t line = 0; line < height; line++) {
+    for (size_t col = 0; col < width; col++) {
+      if (display[col + (line * width)] != 0) {
+        printf("O ");
+      } else {
+        printf("# ");
+      }
+    }
+    printf("\n");
+  }
+}

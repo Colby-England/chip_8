@@ -14,4 +14,5 @@ void print_stack(stack_t const *const stack,
                  register8_t const *const stack_ptr);
 void print_ram(uint8_t const *const ram, size_t size);
 
+void draw_display(uint8_t const *const display, size_t width, size_t height);
 #endif // PRINT_FNC_H_INC
