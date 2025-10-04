@@ -1,0 +1,66 @@
+@startmindmap map
+* Chip8
+**:**Memory**
+* 4kb (4096bytes)
+* 0x000 to 0xFFF
+* 0x000 to 0x1FF (512 bytes)
+** off limits (where OG interpreter was stored)
+* Programs start at 0x200(512) or 0x600(1536);
+
+**:**Registers**
+* 16 8-bit registers
+* Refered to as Vx (x is 0-F)
+* VF should not be used by any program;
+
+**:**Register I** 
+* 16-bit
+* for memory addr
+* only lowest 12 bits used;
+
+**:**Sound & timer registers**
+* DT & ST
+* 8-bit
+* When non-zero decremented 1 @ 60hz;
+
+**:**Pseudo-registers**
+* Not accesible by program;
+
+***:**Program counter (PC)**
+* 16-bit
+* Currently executing addr;
+
+***:**Stack pointer (SP)**
+* 8-bit
+* points to topmost level of stack;
+
+****:**Stack**
+* Array of 16 16-bit values
+* Stores addr to return to when finished w/ subroutine;
+
+left side
+
+**:**Keyboard**
+* 16-key hexadecimal keyboard
+| 1 | 2 | 3 | C |
+| 4 | 5 | 6 | D |
+| 7 | 8 | 9 | E |
+| A | 0 | B | F |;
+
+**:**Display**
+* 64x32 pixel monochrome
+<#transparent,#transparent>| (0,0) | (63,0)|
+| (0,31) | (63,31) |;
+
+***:**Sprites**
+* May be up to 15 bytes
+* Max size of 8x15
+* Programs may refer to sprites for 0-F
+** Stored in interpreter area (0x000 to 0x1FFF);
+
+**:**Timers & Sound**
+* Delay
+** Active whenever DT is non-zero
+* Sound
+** Active whenever ST is non-zero
+** >0 buzzer will sound;
+@endmindmap

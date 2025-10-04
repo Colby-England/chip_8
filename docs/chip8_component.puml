@@ -1,0 +1,27 @@
+@startuml
+package "Memory" {
+    [RAM]
+    [Stack]
+}
+
+package "Timers" {
+    [Sound]
+    [Delay]
+}
+
+package "Registers" {
+    [General Purpose (V0...F)]
+    [I register] --> [RAM]
+    [Sound (ST)] --> [Sound]
+    [Time (DT)] --> [Delay]
+    [Stack Pointer (SP)] --> [Stack]
+    [Program counter (PC)] --> [RAM]
+}
+
+package "Hardware" {
+    [Keyboard]
+    [Display]
+}
+
+
+@enduml

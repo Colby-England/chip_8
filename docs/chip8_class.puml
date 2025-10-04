@@ -1,0 +1,37 @@
+@startuml
+
+class Chip8 {
+    void init_memory(Memory *mem)
+    void init_registers(Register[] regs)
+    void load_rom(char *path)
+    void next_instruction(void *addr)
+}
+
+class Register {
+    char *Name
+    size_t Size
+    uint Value
+}
+
+class Keyboard {
+    uint8_t[16] keys
+    bool key_pressed(uint8_t key)
+}
+
+class Timer {
+    uint8_t rate;
+    void reset()
+    void start()
+}
+
+class Memory {
+    uint8_t[4096] data
+    uint8_t read_byte(uint16_t addr)
+}
+
+class Display {
+    uint8_t[64x32] data
+    void draw()
+}
+
+@enduml
