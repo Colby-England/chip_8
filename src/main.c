@@ -53,7 +53,7 @@ int main(void) {
       .display = {.data = {0}}};
 
   // TODO: Make a chip8 init function.
-  bool success = load_rom("./test.bin", &chip);
+  bool success = load_rom("./test_data/test.bin", &chip);
   if (!success) {
     return -1;
   }
