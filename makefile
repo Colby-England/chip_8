@@ -1,14 +1,14 @@
-CC = gcc
+CC = clang
 
 # set the c standard
-CFLAGS += -std=c2x
+CFLAGS += -std=c23
 
 # Turn on a bunch of warnings
 CFLAGS += -Wall -Wextra -Wpedantic \
           -Wformat=2 -Wno-unused-parameter -Wshadow \
           -Wwrite-strings -Wstrict-prototypes -Wold-style-definition \
           -Wredundant-decls -Wnested-externs -Wmissing-include-dirs \
-          -g -O0 -DDEBUG
+	  -fPIE
 
 # TODO: Set up release and debug builds, for now just build debug.
 
@@ -16,7 +16,6 @@ CFLAGS += -Wall -Wextra -Wpedantic \
 ifeq ($(CC),gcc)
 	CFLAGS += -Wjump-misses-init -Wlogical-op
 endif
-
 
 # Define project variables
 SRC_DIR := src
@@ -29,6 +28,18 @@ OBJS = $(SRCS:%=$(BUILD_DIR)/%.o)
 DEPS = $(OBJS:.o=.d)
 
 CPPFLAGS := -MMD -MP
+
+debug: CFLAGS += -g -DDEBUG -O0
+debug: $(BUILD_DIR)/$(TARGET)
+
+release: CFLAGS += -DNDEBUG -O3
+release: $(BUILD_DIR)/$(TARGET)
+
+asan: CFLAGS += -g -O1 -fsanitize=address -fno-omit-frame-pointer
+asan: $(BUILD_DIR)/$(TARGET)
+
+ubsan: CFLAGS += -g -fsanitize=undefined
+ubsan: $(BUILD_DIR)/$(TARGET)
 
 $(BUILD_DIR)/$(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS)
@@ -51,3 +62,6 @@ tidy:
 .PHONY: format
 format:
 	clang-format -i $(SRCS) $(HDRS)
+
+cppcheck:
+	cppcheck $(SRCS) 
