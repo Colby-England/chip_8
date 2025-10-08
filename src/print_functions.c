@@ -29,7 +29,7 @@ void print_stack(stack_t const *const stack,
                  register8_t const *const stack_ptr) {
   printf("Current Stack\n");
   int elements = sizeof(stack->data) / sizeof(stack->data[0]);
-  for (int i = elements; i >= 0; i--) {
+  for (int i = elements - 1; i >= 0; i--) {
     printf("Pos (%02d) - 0x%02x", i, stack->data[i]);
     if (stack_ptr->data == i) {
       printf(" <-- %s", stack_ptr->name);
