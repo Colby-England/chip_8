@@ -4,6 +4,7 @@
 #include "types.h"
 
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 
 [[nodiscard]] bool load_rom(char const *const path, chip8 *const chip) {
@@ -14,16 +15,27 @@
   }
 
   // Find the size of file
-  fseek(fp, 0L, SEEK_END);
+  int success = fseek(fp, 0L, SEEK_END);
+  if (success != 0) {
+    fprintf(stderr, "fseek() failed: %u\n", success);
+    fclose(fp);
+    return false;
+  }
+
   int64_t size = ftell(fp);
+  if (size == -1) {
+    fprintf(stderr, "ftell() failed: %zu\n", size);
+    fclose(fp);
+    return false;
+  }
   rewind(fp);
 
   // Read size bytes into chip8 memory @ start addr
-  size_t bytes_read = fread(&(chip->memory.data[chip->memory.start]),
-                            sizeof(chip->memory.data[0]), size, fp);
+  size_t ret = fread(&(chip->memory.data[chip->memory.start]),
+                     sizeof(chip->memory.data[0]), size, fp);
 
-  if ((int64_t)bytes_read != size) {
-    perror("Did not read entire file.\n");
+  if ((int64_t)ret != size) {
+    fprintf(stderr, "fread() failed: %zu\n", ret);
     fclose(fp);
     return false;
   }
