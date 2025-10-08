@@ -89,4 +89,15 @@ void op_6xkk(chip8 *const chip, uint16_t instruction) {
   chip->gp_registers[reg_x] = kk;
 }
 
+// @brief Add the value kk to the valye of register x.
+//
+// @param chip The chip8 to run the instruction on.
+// @param instruction The value of the instruction.
+void op_7xkk(chip8 *const chip, uint16_t instruction) {
+  int reg_x = instruction & 0x0F00;
+  int kk = instruction & 0x00FF;
+
+  chip->gp_registers[reg_x] += kk;
+}
+
 #endif // OPCODES_H_INC
